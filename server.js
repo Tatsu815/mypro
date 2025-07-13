@@ -68,6 +68,7 @@ app.delete('/api/images/:public_id', async (req, res) => {
   console.log('Deleting image with public_id:', public_id); // Debug log
   try {
     const result = await cloudinary.uploader.destroy(public_id, { resource_type: 'image' });
+    console.log('Kết quả xóa từ Cloudinary:', result); // Debug log
     if (result.result === 'ok') {
       res.json({ success: true });
     } else {
