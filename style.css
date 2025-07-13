@@ -38,7 +38,8 @@ body.somepics-page{
 }
 
 #gallery img {
-    max-width: 150px;
+    max-width: 300px;
+    max-height: 150px;
     margin: 10px;
     border-radius: 10px;
     box-shadow: 0 0 4px #aaa;
