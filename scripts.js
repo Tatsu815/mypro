@@ -9,7 +9,7 @@ function ensureModal() {
   const modal = document.createElement('div');
   modal.id = 'img-modal';
   modal.innerHTML = `
-    <div class="img-modal-content" style="background:white; padding:20px; border-radius:8px; max-width:90%; width:400px; position:relative;">
+    <div class="img-modal-content">
       <span class="img-modal-close" id="img-modal-close">×</span>
       <img id="img-modal-img" src="" alt="preview">
       <div id="password-modal" style="display:none; text-align:center;">
