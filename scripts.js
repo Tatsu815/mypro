@@ -12,7 +12,7 @@ function ensureModal() {
     <div class="img-modal-content">
       <span class="img-modal-close" id="img-modal-close">×</span>
       <img id="img-modal-img" src="" alt="preview">
-      <div id="password-modal" style="display:none; text-align:center;">
+      <div id="password-modal" style="display:none; text-align:center; background:white; padding:20px; border-radius:8px; max-width:90%; width:400px; position:relative;">
         <h3 style="margin:0 0 15px;">Nhập mật khẩu để xóa ảnh</h3>
         <input type="password" id="delete-password-input" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px;" placeholder="Mật khẩu">
         <p id="password-error" style="color:red; display:none; margin-bottom:10px;">Sai mật khẩu!</p>
