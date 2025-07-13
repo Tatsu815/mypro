@@ -1,11 +1,11 @@
 const menuBtn = document.querySelector('.menu-toggle');
 const nav = document.querySelector('nav');
+const API_BASE = '/api';
+const FIXED_PASSWORD = "0815";
+
 menuBtn.addEventListener('click', () => {
     nav.classList.toggle('open');
 });
-
-const API_BASE = '/api';
-const FIXED_PASSWORD = "0815";
 
 function ensureModal() {
   if (document.getElementById('img-modal')) return;
