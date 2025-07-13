@@ -27,15 +27,46 @@
         <i class="fa-solid fa-plus"></i>
         <input type="file" id="image-input" accept="image/*" required hidden>
     </label>
-    <span id="file-chosen" class="file-chosen-text">Xem trước ảnh</span>
+    <span id="file-chosen" class="file-chosen-text"></span>
     <img id="img-preview" style="display:none; max-width:70px; max-height:70px; border-radius:8px; margin-left:10px;">
-    <input type="password" id="upload-password" class="custom-password" placeholder="Password" autocomplete="off" required>
-    <button type="submit" class="custom-upload-btn" title="Upload">
-        <i class="fa-solid fa-check"></i>
-    </button>
     </form>
     <span id="password-error" style="color:yellow; display:none; margin-left:10px;font-size:1.3rem">Wrong password!</span>
     <div id="gallery"></div>
+
+    <div id="img-modal">
+      <div class="img-modal-content">
+        <span class="img-modal-close" id="img-modal-close" style="display: none;">×</span>
+        <img id="img-modal-img" src="" alt="preview">
+        <div id="confirm-delete-modal" style="display:none; text-align:center;">
+          <h3>Bạn có chắc muốn xóa ảnh này?</h3>
+          <button id="confirm-delete-yes">Xác nhận</button>
+          <button id="confirm-delete-no">Hủy</button>
+        </div>
+        <div id="password-modal" style="display:none; text-align:center;">
+          <h3>Nhập mật khẩu để xóa ảnh</h3>
+          <input type="password" id="delete-password-input" placeholder="Mật khẩu">
+          <p id="password-error" style="display:none;">Sai mật khẩu!</p>
+          <button id="password-confirm">Xác nhận</button>
+          <button id="password-cancel">Hủy</button>
+        </div>
+        <div id="confirm-upload-modal" style="display:none; text-align:center;">
+          <h3>Bạn có chắc muốn tải ảnh này lên?</h3>
+          <img id="upload-preview-img" src="" alt="upload preview">
+          <div style="margin-top: 15px;">
+            <button id="confirm-upload-yes">Xác nhận</button>
+            <button id="confirm-upload-no">Hủy</button>
+          </div>
+        </div>
+        <div id="upload-password-modal" style="display:none; text-align:center;">
+          <h3>Nhập mật khẩu để tải ảnh</h3>
+          <input type="password" id="upload-password-input" placeholder="Mật khẩu">
+          <p id="upload-password-error" style="display:none;">Sai mật khẩu!</p>
+          <button id="upload-password-confirm">Xác nhận</button>
+          <button id="upload-password-cancel">Hủy</button>
+        </div>
+      </div>
+    </div>
+
     <footer class="footer-contact">
       <h3>Please contact me at: </h3>
       <div class="social-icons">

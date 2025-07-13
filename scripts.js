@@ -8,27 +8,29 @@ if (menuBtn && nav) {
   menuBtn.addEventListener('click', () => {
     nav.classList.toggle('open');
   });
+} else {
+  console.error('Không tìm thấy .menu-toggle hoặc nav trong DOM');
 }
 
-// Modal cho xem trước ảnh và nhập mật khẩu xóa
-function ensureModal() {
-  if (document.getElementById('img-modal')) return;
-  const modal = document.createElement('div');
-  modal.id = 'img-modal';
-  modal.innerHTML = `
-    <div class="img-modal-content">
-      <span class="img-modal-close" id="img-modal-close">×</span>
-      <img id="img-modal-img" src="" alt="preview">
-      <div id="password-modal" style="display:none; text-align:center; background:white; padding:20px; border-radius:8px; max-width:90%; width:400px; position:relative;">
-        <h3 style="margin:0 0 15px;">Nhập mật khẩu để xóa ảnh</h3>
-        <input type="password" id="delete-password-input" style="width:100%; padding:10px; margin-bottom:10px; border-radius: 20px; border: 2px solid #ffa500; border-radius:4px;" placeholder="Mật khẩu">
-        <p id="password-error" style="color:red; display:none; margin-bottom:10px;">Sai mật khẩu!</p>
-        <button id="password-confirm" style="background:#dc3545; color:white; padding:10px 20px; border:none; border-radius:4px; cursor:pointer; margin-right:10px;">Xác nhận</button>
-        <button id="password-cancel" style="background:#6c757d; color:white; padding:10px 20px; border:none; border-radius:4px; cursor:pointer;">Hủy</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
+// Modal functions
+function openModal(imgSrc) {
+  const modal = document.getElementById('img-modal');
+  const img = document.getElementById('img-modal-img');
+  const confirmDeleteModal = document.getElementById('confirm-delete-modal');
+  const passwordModal = document.getElementById('password-modal');
+  const confirmUploadModal = document.getElementById('confirm-upload-modal');
+  const uploadPasswordModal = document.getElementById('upload-password-modal');
+  if (!modal || !img || !confirmDeleteModal || !passwordModal || !confirmUploadModal || !uploadPasswordModal) {
+    console.error('Không tìm thấy các phần tử modal');
+    return;
+  }
+  img.src = imgSrc;
+  img.style.display = 'block';
+  confirmDeleteModal.style.display = 'none';
+  passwordModal.style.display = 'none';
+  confirmUploadModal.style.display = 'none';
+  uploadPasswordModal.style.display = 'none';
+  modal.classList.add('active');
 
   modal.querySelector('.img-modal-close').onclick = closeModal;
   modal.onclick = function(e) {
@@ -36,46 +38,82 @@ function ensureModal() {
   };
 }
 
-function openModal(imgSrc) {
-  ensureModal();
-  const modal = document.getElementById('img-modal');
-  const img = document.getElementById('img-modal-img');
-  const span = document.querySelector('.img-modal-close');
-  const passwordModal = document.getElementById('password-modal');
-  img.src = imgSrc;
-  img.style.display = 'block';
-  span.style.display = 'none';
-  passwordModal.style.display = 'none';
-  modal.classList.add('active');
-}
-
 function closeModal() {
   const modal = document.getElementById('img-modal');
+  const img = document.getElementById('img-modal-img');
+  const confirmDeleteModal = document.getElementById('confirm-delete-modal');
+  const passwordModal = document.getElementById('password-modal');
+  const confirmUploadModal = document.getElementById('confirm-upload-modal');
+  const uploadPasswordModal = document.getElementById('upload-password-modal');
+  const passwordInput = document.getElementById('delete-password-input');
+  const passwordError = document.getElementById('password-error');
+  const uploadPasswordInput = document.getElementById('upload-password-input');
+  const uploadPasswordError = document.getElementById('upload-password-error');
   if (modal) {
     modal.classList.remove('active');
-    document.getElementById('img-modal-img').style.display = 'none';
-    document.getElementById('password-modal').style.display = 'none';
-    document.getElementById('delete-password-input').value = '';
-    document.getElementById('password-error').style.display = 'none';
+    if (img) img.style.display = 'none';
+    if (confirmDeleteModal) confirmDeleteModal.style.display = 'none';
+    if (passwordModal) passwordModal.style.display = 'none';
+    if (confirmUploadModal) confirmUploadModal.style.display = 'none';
+    if (uploadPasswordModal) uploadPasswordModal.style.display = 'none';
+    if (passwordInput) passwordInput.value = '';
+    if (passwordError) passwordError.style.display = 'none';
+    if (uploadPasswordInput) uploadPasswordInput.value = '';
+    if (uploadPasswordError) uploadPasswordError.style.display = 'none';
   }
 }
 
-function openPasswordModal(callback) {
-  ensureModal();
+function openConfirmDeleteModal(callback) {
   const modal = document.getElementById('img-modal');
   const img = document.getElementById('img-modal-img');
+  const confirmDeleteModal = document.getElementById('confirm-delete-modal');
   const passwordModal = document.getElementById('password-modal');
+  const confirmUploadModal = document.getElementById('confirm-upload-modal');
+  const uploadPasswordModal = document.getElementById('upload-password-modal');
+  const yesBtn = document.getElementById('confirm-delete-yes');
+  const noBtn = document.getElementById('confirm-delete-no');
+
+  if (!modal || !confirmDeleteModal || !yesBtn || !noBtn) {
+    console.error('Không tìm thấy các phần tử modal xác nhận xóa');
+    return;
+  }
+
+  img.style.display = 'none';
+  confirmDeleteModal.style.display = 'block';
+  passwordModal.style.display = 'none';
+  confirmUploadModal.style.display = 'none';
+  uploadPasswordModal.style.display = 'none';
+  modal.classList.add('active');
+
+  yesBtn.onclick = callback;
+  noBtn.onclick = closeModal;
+}
+
+function openPasswordModal(callback) {
+  const modal = document.getElementById('img-modal');
+  const img = document.getElementById('img-modal-img');
+  const confirmDeleteModal = document.getElementById('confirm-delete-modal');
+  const passwordModal = document.getElementById('password-modal');
+  const confirmUploadModal = document.getElementById('confirm-upload-modal');
+  const uploadPasswordModal = document.getElementById('upload-password-modal');
   const passwordInput = document.getElementById('delete-password-input');
   const passwordError = document.getElementById('password-error');
   const confirmBtn = document.getElementById('password-confirm');
   const cancelBtn = document.getElementById('password-cancel');
 
+  if (!modal || !passwordModal || !passwordInput || !confirmBtn || !cancelBtn) {
+    console.error('Không tìm thấy các phần tử modal mật khẩu');
+    return;
+  }
+
   img.style.display = 'none';
+  confirmDeleteModal.style.display = 'none';
   passwordModal.style.display = 'block';
+  confirmUploadModal.style.display = 'none';
+  uploadPasswordModal.style.display = 'none';
   modal.classList.add('active');
   passwordInput.focus();
 
-  // Xử lý nút Xác nhận
   confirmBtn.onclick = () => {
     const pwd = passwordInput.value;
     if (!pwd || pwd !== FIXED_PASSWORD) {
@@ -89,7 +127,75 @@ function openPasswordModal(callback) {
     callback();
   };
 
-  // Xử lý nút Hủy
+  cancelBtn.onclick = closeModal;
+}
+
+function openConfirmUploadModal(imgSrc, callback) {
+  const modal = document.getElementById('img-modal');
+  const img = document.getElementById('img-modal-img');
+  const confirmDeleteModal = document.getElementById('confirm-delete-modal');
+  const passwordModal = document.getElementById('password-modal');
+  const confirmUploadModal = document.getElementById('confirm-upload-modal');
+  const uploadPasswordModal = document.getElementById('upload-password-modal');
+  const uploadPreviewImg = document.getElementById('upload-preview-img');
+  const yesBtn = document.getElementById('confirm-upload-yes');
+  const noBtn = document.getElementById('confirm-upload-no');
+
+  if (!modal || !confirmUploadModal || !uploadPreviewImg || !yesBtn || !noBtn) {
+    console.error('Không tìm thấy các phần tử modal xác nhận upload');
+    return;
+  }
+
+  img.style.display = 'none';
+  confirmDeleteModal.style.display = 'none';
+  passwordModal.style.display = 'none';
+  confirmUploadModal.style.display = 'block';
+  uploadPasswordModal.style.display = 'none';
+  uploadPreviewImg.src = imgSrc;
+  modal.classList.add('active');
+
+  yesBtn.onclick = callback;
+  noBtn.onclick = closeModal;
+}
+
+function openUploadPasswordModal(callback) {
+  const modal = document.getElementById('img-modal');
+  const img = document.getElementById('img-modal-img');
+  const confirmDeleteModal = document.getElementById('confirm-delete-modal');
+  const passwordModal = document.getElementById('password-modal');
+  const confirmUploadModal = document.getElementById('confirm-upload-modal');
+  const uploadPasswordModal = document.getElementById('upload-password-modal');
+  const uploadPasswordInput = document.getElementById('upload-password-input');
+  const uploadPasswordError = document.getElementById('upload-password-error');
+  const confirmBtn = document.getElementById('upload-password-confirm');
+  const cancelBtn = document.getElementById('upload-password-cancel');
+
+  if (!modal || !uploadPasswordModal || !uploadPasswordInput || !confirmBtn || !cancelBtn) {
+    console.error('Không tìm thấy các phần tử modal mật khẩu upload');
+    return;
+  }
+
+  img.style.display = 'none';
+  confirmDeleteModal.style.display = 'none';
+  passwordModal.style.display = 'none';
+  confirmUploadModal.style.display = 'none';
+  uploadPasswordModal.style.display = 'block';
+  modal.classList.add('active');
+  uploadPasswordInput.focus();
+
+  confirmBtn.onclick = () => {
+    const pwd = uploadPasswordInput.value;
+    if (!pwd || pwd !== FIXED_PASSWORD) {
+      uploadPasswordError.style.display = 'block';
+      uploadPasswordInput.value = '';
+      uploadPasswordInput.focus();
+      return;
+    }
+    uploadPasswordError.style.display = 'none';
+    closeModal();
+    callback();
+  };
+
   cancelBtn.onclick = closeModal;
 }
 
@@ -101,7 +207,6 @@ async function fetchImages() {
       throw new Error(`Lỗi HTTP! status: ${res.status}`);
     }
     const images = await res.json();
-    console.log('Danh sách ảnh:', images); // Debug log
     const gallery = document.getElementById('gallery');
     if (!gallery) return;
     gallery.innerHTML = images.map(url => {
@@ -110,7 +215,6 @@ async function fetchImages() {
       const uploadIndex = parts.indexOf('upload');
       const pathAfterUpload = parts.slice(uploadIndex + 1);
       const publicId = (pathAfterUpload[0].startsWith('v') ? pathAfterUpload.slice(1) : pathAfterUpload).join('/').split('.')[0];
-      console.log('URL ảnh:', url, 'Public ID:', publicId); // Debug log
       return `
         <div class="gallery-item" style="display:inline-block; position:relative;">
           <img src="${url}" alt="pic" style="cursor:pointer;" onclick="openModal('${url}')">
@@ -129,24 +233,22 @@ async function fetchImages() {
 
 // Xóa ảnh từ Cloudinary
 async function deleteImage(publicId) {
-  console.log('Thử xóa ảnh với public_id:', publicId); // Debug log
-  if (!confirm('Bạn có chắc muốn xóa ảnh này?')) return;
-  openPasswordModal(async () => {
-    try {
-      const res = await fetch(`${API_BASE}/images/${encodeURIComponent(publicId)}`, {
-        method: 'DELETE',
-      });
-      const responseData = await res.json();
-      console.log('Phản hồi từ server:', responseData); // Debug log
-      if (!res.ok) {
-        throw new Error(`Xóa thất bại: ${responseData.error || res.statusText}`);
+  openConfirmDeleteModal(async () => {
+    openPasswordModal(async () => {
+      try {
+        const res = await fetch(`${API_BASE}/images/${encodeURIComponent(publicId)}`, {
+          method: 'DELETE',
+        });
+        const responseData = await res.json();
+        if (!res.ok) {
+          throw new Error(`Xóa thất bại: ${responseData.error || res.statusText}`);
+        }
+        await fetchImages(); // Làm mới gallery
+      } catch (error) {
+        console.error('Lỗi khi xóa ảnh:', error.message);
+        alert('Không thể xóa ảnh. Lỗi: ' + error.message);
       }
-      await fetchImages(); // Làm mới gallery
-      alert('Xóa ảnh thành công!');
-    } catch (error) {
-      console.error('Lỗi khi xóa ảnh:', error.message);
-      alert('Không thể xóa ảnh. Lỗi: ' + error.message);
-    }
+    });
   });
 }
 
@@ -159,63 +261,51 @@ const uploadPassword = document.getElementById('upload-password');
 const passwordError = document.getElementById('password-error');
 
 if (imageInput && fileChosen && imgPreview) {
+  let selectedFile = null; // Lưu file tạm thời
   imageInput.addEventListener('change', function() {
     if (this.files && this.files[0]) {
-      const file = this.files[0];
+      selectedFile = this.files[0];
       const reader = new FileReader();
       reader.onload = function(e) {
         imgPreview.src = e.target.result;
-        imgPreview.style.display = 'inline-block';
-        fileChosen.style.display = 'none';
+        imgPreview.style.display = 'none';
+        // Mở modal xác nhận upload
+        openConfirmUploadModal(e.target.result, () => {
+          openUploadPasswordModal(async () => {
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+            try {
+              const res = await fetch(`${API_BASE}/upload`, {
+                method: 'POST',
+                body: formData,
+              });
+              if (!res.ok) {
+                throw new Error('Upload thất bại');
+              }
+              await fetchImages();
+              imageInput.value = '';
+              imgPreview.style.display = 'none';
+              selectedFile = null;
+            } catch (error) {
+              console.error('Lỗi khi upload ảnh:', error.message);
+              alert('Không thể tải ảnh lên. Lỗi: ' + error.message);
+            }
+          });
+        });
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(selectedFile);
     } else {
       imgPreview.style.display = 'none';
-      fileChosen.style.display = 'inline';
-      fileChosen.textContent = 'Xem trước ảnh';
+      selectedFile = null;
     }
   });
 }
 
 if (uploadForm) {
-  uploadForm.onsubmit = async function(e) {
-    e.preventDefault();
-    if (!uploadPassword.value || uploadPassword.value !== FIXED_PASSWORD) {
-      if (passwordError) passwordError.style.display = 'inline';
-      uploadPassword.value = '';
-      uploadPassword.focus();
-      return;
-    } else {
-      if (passwordError) passwordError.style.display = 'none';
-    }
-    if (!imageInput.files[0]) return;
-    const file = imageInput.files[0];
-    const formData = new FormData();
-    formData.append('image', file);
-    try {
-      const res = await fetch(`${API_BASE}/upload`, {
-        method: 'POST',
-        body: formData,
-      });
-      if (!res.ok) {
-        throw new Error('Upload thất bại');
-      }
-      console.log('Upload ảnh thành công'); // Debug log
-      await fetchImages();
-      imageInput.value = '';
-      uploadPassword.value = '';
-      imgPreview.style.display = 'none';
-      fileChosen.style.display = 'inline';
-      fileChosen.textContent = 'Xem trước ảnh';
-    } catch (error) {
-      console.error('Lỗi khi upload ảnh:', error.message);
-      alert('Không thể tải ảnh lên. Lỗi: ' + error.message);
-    }
+  uploadForm.onsubmit = function(e) {
+    e.preventDefault(); // Ngăn submit form mặc định
   };
-  ensureModal();
   fetchImages();
-} else {
-  ensureModal();
 }
 
 window.openModal = openModal;

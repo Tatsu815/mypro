@@ -273,14 +273,6 @@ section{
   color: #fff;
 }
 
-.file-chosen-text {
-  color: #fff;
-  min-width: 120px;
-  font-size: 1.4rem;
-  text-align: left;
-  margin-left: 8px;
-}
-
 .custom-upload-btn {
   background: #fff;
   border: 2px solid #2ecc71;
@@ -463,4 +455,108 @@ span{
 }
 .img-modal-close:hover {
   background: #c00;
+}
+
+#confirm-upload-modal .img-modal-close,
+#upload-password-modal .img-modal-close,
+#upload-success-modal .img-modal-close {
+    display: none;
+}
+
+#confirm-delete-modal,
+#confirm-upload-modal,
+#password-modal,
+#success-modal,
+#upload-password-modal,
+#upload-success-modal {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+#confirm-delete-modal h3,
+#confirm-upload-modal h3,
+#password-modal h3,
+#success-modal h3,
+#upload-password-modal h3,
+#upload-success-modal h3 {
+    margin: 0 0 15px;
+    font-size: 2rem;
+    color: #333;
+}
+
+#password-modal input,
+#upload-password-modal input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #ffa500;
+    border-radius: 20px;
+    font-size: 1.3rem;
+}
+
+#password-modal p,
+#upload-password-modal p {
+    color: red;
+    margin-bottom: 10px;
+    font-size: 1.4rem;
+}
+
+#confirm-delete-modal button,
+#password-modal button,
+#success-modal button,
+#confirm-upload-modal button,
+#upload-password-modal button,
+#upload-success-modal button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.4rem;
+    margin: 0 5px;
+    box-sizing: border-box;
+}
+
+#confirm-delete-yes,
+#password-confirm,
+#confirm-upload-yes,
+#upload-password-confirm,
+#success-ok,
+#upload-success-ok {
+    background: #dc3545;
+    color: white;
+}
+
+#confirm-upload-yes,
+#upload-password-confirm,
+#upload-success-ok {
+    background: #2ecc71;
+}
+
+#confirm-delete-yes:hover,
+#password-confirm:hover,
+#confirm-upload-yes:hover,
+#upload-password-confirm:hover,
+#success-ok:hover,
+#upload-success-ok:hover {
+    opacity: 0.9;
+}
+
+#confirm-delete-no,
+#password-cancel,
+#confirm-upload-no,
+#upload-password-cancel {
+    background: #6c757d;
+    color: white;
+}
+
+#confirm-delete-no:hover,
+#password-cancel:hover,
+#confirm-upload-no:hover,
+#upload-password-cancel:hover {
+    opacity: 0.9;
 }
