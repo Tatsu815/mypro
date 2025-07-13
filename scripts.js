@@ -76,23 +76,18 @@ async function fetchImages() {
 
 // Xóa ảnh từ Cloudinary
 async function deleteImage(publicId) {
-  console.log('Thử xóa ảnh với public_id:', publicId); // Debug log
-  const pwd = prompt('Nhập mật khẩu để xóa ảnh:');
-  if (!pwd || pwd !== FIXED_PASSWORD) {
-    alert('Sai mật khẩu. Không thể xóa ảnh!');
-    return;
-  }
+  console.log('Thử xóa ảnh với public_id:', publicId);
   if (!confirm('Bạn có chắc muốn xóa ảnh này?')) return;
   try {
     const res = await fetch(`${API_BASE}/images/${encodeURIComponent(publicId)}`, {
       method: 'DELETE',
     });
     const responseData = await res.json();
-    console.log('Phản hồi từ server:', responseData); // Debug log
+    console.log('Phản hồi từ server:', responseData);
     if (!res.ok) {
       throw new Error(`Xóa thất bại: ${responseData.error || res.statusText}`);
     }
-    await fetchImages(); // Làm mới gallery
+    await fetchImages();
     alert('Xóa ảnh thành công!');
   } catch (error) {
     console.error('Lỗi khi xóa ảnh:', error.message);
