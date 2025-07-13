@@ -3,6 +3,13 @@ const nav = document.querySelector('nav');
 const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : '/api';
 const FIXED_PASSWORD = '0815'; // Chuyển sang server-side cho production
 
+// Menu toggle
+if (menuBtn && nav) {
+  menuBtn.addEventListener('click', () => {
+    nav.classList.toggle('open');
+  });
+}
+
 // Modal cho xem trước ảnh và nhập mật khẩu xóa
 function ensureModal() {
   if (document.getElementById('img-modal')) return;
@@ -33,9 +40,11 @@ function openModal(imgSrc) {
   ensureModal();
   const modal = document.getElementById('img-modal');
   const img = document.getElementById('img-modal-img');
+  const span = document.querySelector('.img-modal-close');
   const passwordModal = document.getElementById('password-modal');
   img.src = imgSrc;
   img.style.display = 'block';
+  span.style.display = 'none';
   passwordModal.style.display = 'none';
   modal.classList.add('active');
 }
