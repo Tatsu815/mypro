@@ -56,7 +56,9 @@ async function fetchImages() {
       // Trích xuất public_id từ URL Cloudinary
       const parts = url.split('/');
       const uploadIndex = parts.indexOf('upload');
-      const publicId = parts.slice(uploadIndex + 1).join('/').split('.')[0]; // Lấy public_id, kể cả khi có thư mục
+      // Bỏ phần version (v123456789) nếu có
+      const pathAfterUpload = parts.slice(uploadIndex + 1);
+      const publicId = (pathAfterUpload[0].startsWith('v') ? pathAfterUpload.slice(1) : pathAfterUpload).join('/').split('.')[0];
       console.log('URL ảnh:', url, 'Public ID:', publicId); // Debug log
       return `
         <div class="gallery-item" style="display:inline-block; position:relative;">
@@ -76,18 +78,23 @@ async function fetchImages() {
 
 // Xóa ảnh từ Cloudinary
 async function deleteImage(publicId) {
-  console.log('Thử xóa ảnh với public_id:', publicId);
+  console.log('Thử xóa ảnh với public_id:', publicId); // Debug log
+  const pwd = prompt('Nhập mật khẩu để xóa ảnh:');
+  if (!pwd || pwd !== FIXED_PASSWORD) {
+    alert('Sai mật khẩu. Không thể xóa ảnh!');
+    return;
+  }
   if (!confirm('Bạn có chắc muốn xóa ảnh này?')) return;
   try {
     const res = await fetch(`${API_BASE}/images/${encodeURIComponent(publicId)}`, {
       method: 'DELETE',
     });
     const responseData = await res.json();
-    console.log('Phản hồi từ server:', responseData);
+    console.log('Phản hồi từ server:', responseData); // Debug log
     if (!res.ok) {
       throw new Error(`Xóa thất bại: ${responseData.error || res.statusText}`);
     }
-    await fetchImages();
+    await fetchImages(); // Làm mới gallery
     alert('Xóa ảnh thành công!');
   } catch (error) {
     console.error('Lỗi khi xóa ảnh:', error.message);
