@@ -10,8 +10,8 @@ function ensureModal() {
   modal.id = 'img-modal';
   modal.innerHTML = `
     <div class="img-modal-content" style="background:white; padding:20px; border-radius:8px; max-width:90%; width:400px; position:relative;">
-      <span class="img-modal-close" id="img-modal-close" style="position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer;">×</span>
-      <img id="img-modal-img" src="" alt="preview" style="display:none; max-width:100%; border-radius:4px;">
+      <span class="img-modal-close" id="img-modal-close">×</span>
+      <img id="img-modal-img" src="" alt="preview">
       <div id="password-modal" style="display:none; text-align:center;">
         <h3 style="margin:0 0 15px;">Nhập mật khẩu để xóa ảnh</h3>
         <input type="password" id="delete-password-input" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px;" placeholder="Mật khẩu">
