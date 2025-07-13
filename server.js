@@ -20,7 +20,7 @@ app.use(express.static(path.join(__dirname, '.')));
 app.get('/api/images', (req, res) => {
   const dir = path.join(__dirname, 'uploads');
   fs.readdir(dir, (err, files) => {
-    if (err) return res.status(500).json({ error: "Cannot read uploads" });a
+    if (err) return res.status(500).json({ error: "Cannot read uploads" });
     const images = files.filter(f => /\.(jpg|jpeg|png|gif)$/i.test(f))
       .map(f => `/uploads/${f}`);
     res.json(images);
