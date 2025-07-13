@@ -21,7 +21,7 @@ function ensureModal() {
       <img id="img-modal-img" src="" alt="preview">
       <div id="password-modal" style="display:none; text-align:center; background:white; padding:20px; border-radius:8px; max-width:90%; width:400px; position:relative;">
         <h3 style="margin:0 0 15px;">Nhập mật khẩu để xóa ảnh</h3>
-        <input type="password" id="delete-password-input" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px;" placeholder="Mật khẩu">
+        <input type="password" id="delete-password-input" style="width:100%; padding:10px; margin-bottom:10px; border-radius: 20px; border: 2px solid #ffa500; border-radius:4px;" placeholder="Mật khẩu">
         <p id="password-error" style="color:red; display:none; margin-bottom:10px;">Sai mật khẩu!</p>
         <button id="password-confirm" style="background:#dc3545; color:white; padding:10px 20px; border:none; border-radius:4px; cursor:pointer; margin-right:10px;">Xác nhận</button>
         <button id="password-cancel" style="background:#6c757d; color:white; padding:10px 20px; border:none; border-radius:4px; cursor:pointer;">Hủy</button>
