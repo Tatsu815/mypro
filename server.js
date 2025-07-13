@@ -1,55 +1,80 @@
 const express = require('express');
 const multer = require('multer');
 const cors = require('cors');
-const fs = require('fs');
-const path = require('path');
+const cloudinary = require('cloudinary').v2;
+require('dotenv').config();
 
+// Initialize Express app
 const app = express();
+
+// Use Render's PORT environment variable or fallback to 3000 for local development
 const PORT = process.env.PORT || 3000;
 
-const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-}
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
+// Configure CORS
 app.use(cors());
-const upload = multer({ dest: path.join(__dirname, 'uploads/') });
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use(express.static(path.join(__dirname, '.')));
 
-app.get('/api/images', (req, res) => {
-  const dir = path.join(__dirname, 'uploads');
-  fs.readdir(dir, (err, files) => {
-    if (err) return res.status(500).json({ error: "Cannot read uploads" });
-    const images = files.filter(f => /\.(jpg|jpeg|png|gif)$/i.test(f))
-      .map(f => `/uploads/${f}`);
+// Configure multer for file uploads (store temporarily in memory)
+const upload = multer({ storage: multer.memoryStorage() });
+
+// Serve static files from the root directory (for HTML, CSS, JS)
+app.use(express.static('.'));
+
+// API to list images from Cloudinary
+app.get('/api/images', async (req, res) => {
+  try {
+    const result = await cloudinary.api.resources({
+      resource_type: 'image',
+      max_results: 100, // Adjust as needed
+    });
+    const images = result.resources.map(resource => resource.secure_url);
     res.json(images);
-  });
+  } catch (error) {
+    console.error('Error fetching images from Cloudinary:', error);
+    res.status(500).json({ error: 'Cannot fetch images' });
+  }
 });
 
-app.post('/api/upload', upload.single('image'), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: "No file uploaded" });
-  const ext = path.extname(req.file.originalname);
-  const newPath = req.file.path + ext;
-  fs.rename(req.file.path, newPath, err => {
-    if (err) return res.status(500).json({ error: "Rename failed" });
-    res.json({ url: `/uploads/${path.basename(newPath)}` });
-  });
+// API to upload images to Cloudinary
+app.post('/api/upload', upload.single('image'), async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+  try {
+    const result = await cloudinary.uploader.upload_stream({
+      resource_type: 'image',
+    }, (error, result) => {
+      if (error) {
+        console.error('Error uploading to Cloudinary:', error);
+        return res.status(500).json({ error: 'Upload failed' });
+      }
+      res.json({ url: result.secure_url });
+    }).end(req.file.buffer);
+  } catch (error) {
+    console.error('Error uploading to Cloudinary:', error);
+    res.status(500).json({ error: 'Upload failed' });
+  }
 });
 
-app.delete('/api/images/:filename', (req, res) => {
-  const filename = req.params.filename;
-  console.log("Định xóa file:", filename);
-  const imgPath = path.join(__dirname, 'uploads', filename);
-  fs.unlink(imgPath, err => {
-    if (err) {
-      console.error("Lỗi khi xóa:", err);
-      return res.status(404).json({ error: 'File not found' });
-    }
+// API to delete images from Cloudinary
+app.delete('/api/images/:public_id', async (req, res) => {
+  const public_id = req.params.public_id;
+  try {
+    await cloudinary.uploader.destroy(public_id, { resource_type: 'image' });
     res.json({ success: true });
-  });
+  } catch (error) {
+    console.error('Error deleting image from Cloudinary:', error);
+    res.status(404).json({ error: 'File not found' });
+  }
 });
 
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server listening at http://localhost:${PORT}`);
 });
