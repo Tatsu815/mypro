@@ -3,22 +3,22 @@ const nav = document.querySelector('nav');
 const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : '/api';
 const FIXED_PASSWORD = '0815'; // Chuyển sang server-side cho production
 
-// Menu toggle
-if (menuBtn && nav) {
-  menuBtn.addEventListener('click', () => {
-    nav.classList.toggle('open');
-  });
-}
-
-// Modal cho xem trước ảnh
+// Modal cho xem trước ảnh và nhập mật khẩu xóa
 function ensureModal() {
   if (document.getElementById('img-modal')) return;
   const modal = document.createElement('div');
   modal.id = 'img-modal';
   modal.innerHTML = `
-    <div class="img-modal-content">
-      <span class="img-modal-close" id="img-modal-close">×</span>
-      <img id="img-modal-img" src="" alt="preview">
+    <div class="img-modal-content" style="background:white; padding:20px; border-radius:8px; max-width:90%; width:400px; position:relative;">
+      <span class="img-modal-close" id="img-modal-close" style="position:absolute; top:10px; right:15px; font-size:24px; cursor:pointer;">×</span>
+      <img id="img-modal-img" src="" alt="preview" style="display:none; max-width:100%; border-radius:4px;">
+      <div id="password-modal" style="display:none; text-align:center;">
+        <h3 style="margin:0 0 15px;">Nhập mật khẩu để xóa ảnh</h3>
+        <input type="password" id="delete-password-input" style="width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:4px;" placeholder="Mật khẩu">
+        <p id="password-error" style="color:red; display:none; margin-bottom:10px;">Sai mật khẩu!</p>
+        <button id="password-confirm" style="background:#dc3545; color:white; padding:10px 20px; border:none; border-radius:4px; cursor:pointer; margin-right:10px;">Xác nhận</button>
+        <button id="password-cancel" style="background:#6c757d; color:white; padding:10px 20px; border:none; border-radius:4px; cursor:pointer;">Hủy</button>
+      </div>
     </div>
   `;
   document.body.appendChild(modal);
@@ -32,13 +32,56 @@ function ensureModal() {
 function openModal(imgSrc) {
   ensureModal();
   const modal = document.getElementById('img-modal');
-  document.getElementById('img-modal-img').src = imgSrc;
+  const img = document.getElementById('img-modal-img');
+  const passwordModal = document.getElementById('password-modal');
+  img.src = imgSrc;
+  img.style.display = 'block';
+  passwordModal.style.display = 'none';
   modal.classList.add('active');
 }
 
 function closeModal() {
   const modal = document.getElementById('img-modal');
-  if (modal) modal.classList.remove('active');
+  if (modal) {
+    modal.classList.remove('active');
+    document.getElementById('img-modal-img').style.display = 'none';
+    document.getElementById('password-modal').style.display = 'none';
+    document.getElementById('delete-password-input').value = '';
+    document.getElementById('password-error').style.display = 'none';
+  }
+}
+
+function openPasswordModal(callback) {
+  ensureModal();
+  const modal = document.getElementById('img-modal');
+  const img = document.getElementById('img-modal-img');
+  const passwordModal = document.getElementById('password-modal');
+  const passwordInput = document.getElementById('delete-password-input');
+  const passwordError = document.getElementById('password-error');
+  const confirmBtn = document.getElementById('password-confirm');
+  const cancelBtn = document.getElementById('password-cancel');
+
+  img.style.display = 'none';
+  passwordModal.style.display = 'block';
+  modal.classList.add('active');
+  passwordInput.focus();
+
+  // Xử lý nút Xác nhận
+  confirmBtn.onclick = () => {
+    const pwd = passwordInput.value;
+    if (!pwd || pwd !== FIXED_PASSWORD) {
+      passwordError.style.display = 'block';
+      passwordInput.value = '';
+      passwordInput.focus();
+      return;
+    }
+    passwordError.style.display = 'none';
+    closeModal();
+    callback();
+  };
+
+  // Xử lý nút Hủy
+  cancelBtn.onclick = closeModal;
 }
 
 // Lấy và hiển thị ảnh từ Cloudinary
@@ -56,7 +99,6 @@ async function fetchImages() {
       // Trích xuất public_id từ URL Cloudinary
       const parts = url.split('/');
       const uploadIndex = parts.indexOf('upload');
-      // Bỏ phần version (v123456789) nếu có
       const pathAfterUpload = parts.slice(uploadIndex + 1);
       const publicId = (pathAfterUpload[0].startsWith('v') ? pathAfterUpload.slice(1) : pathAfterUpload).join('/').split('.')[0];
       console.log('URL ảnh:', url, 'Public ID:', publicId); // Debug log
@@ -79,27 +121,24 @@ async function fetchImages() {
 // Xóa ảnh từ Cloudinary
 async function deleteImage(publicId) {
   console.log('Thử xóa ảnh với public_id:', publicId); // Debug log
-  const pwd = prompt('Nhập mật khẩu để xóa ảnh:');
-  if (!pwd || pwd !== FIXED_PASSWORD) {
-    alert('Sai mật khẩu. Không thể xóa ảnh!');
-    return;
-  }
   if (!confirm('Bạn có chắc muốn xóa ảnh này?')) return;
-  try {
-    const res = await fetch(`${API_BASE}/images/${encodeURIComponent(publicId)}`, {
-      method: 'DELETE',
-    });
-    const responseData = await res.json();
-    console.log('Phản hồi từ server:', responseData); // Debug log
-    if (!res.ok) {
-      throw new Error(`Xóa thất bại: ${responseData.error || res.statusText}`);
+  openPasswordModal(async () => {
+    try {
+      const res = await fetch(`${API_BASE}/images/${encodeURIComponent(publicId)}`, {
+        method: 'DELETE',
+      });
+      const responseData = await res.json();
+      console.log('Phản hồi từ server:', responseData); // Debug log
+      if (!res.ok) {
+        throw new Error(`Xóa thất bại: ${responseData.error || res.statusText}`);
+      }
+      await fetchImages(); // Làm mới gallery
+      alert('Xóa ảnh thành công!');
+    } catch (error) {
+      console.error('Lỗi khi xóa ảnh:', error.message);
+      alert('Không thể xóa ảnh. Lỗi: ' + error.message);
     }
-    await fetchImages(); // Làm mới gallery
-    alert('Xóa ảnh thành công!');
-  } catch (error) {
-    console.error('Lỗi khi xóa ảnh:', error.message);
-    alert('Không thể xóa ảnh. Lỗi: ' + error.message);
-  }
+  });
 }
 
 // Xử lý upload và xem trước ảnh
