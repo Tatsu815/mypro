@@ -65,12 +65,17 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
 // API to delete images from Cloudinary
 app.delete('/api/images/:public_id', async (req, res) => {
   const public_id = req.params.public_id;
+  console.log('Deleting image with public_id:', public_id); // Debug log
   try {
-    await cloudinary.uploader.destroy(public_id, { resource_type: 'image' });
-    res.json({ success: true });
+    const result = await cloudinary.uploader.destroy(public_id, { resource_type: 'image' });
+    if (result.result === 'ok') {
+      res.json({ success: true });
+    } else {
+      throw new Error('Cloudinary deletion failed');
+    }
   } catch (error) {
     console.error('Error deleting image from Cloudinary:', error);
-    res.status(404).json({ error: 'File not found' });
+    res.status(404).json({ error: 'File not found or deletion failed' });
   }
 });
 
