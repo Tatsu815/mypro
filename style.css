@@ -383,130 +383,132 @@ span{
 #img-modal.active {
   display: flex !important;
 }
-.img-modal-content {
-  position: relative;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.img-modal-content img {
+
+#img-modal-img {
+  display: block;
   max-width: 90vw;
   max-height: 80vh;
+  margin: 0 auto;
   border-radius: 10px;
-  box-shadow: 0 0 8px #222;
-  background: #222;
-}
-.img-modal-close {
-  position: absolute;
-  top: -16px;
-  right: -16px;
-  color: #fff;
-  background: #f33;
-  border-radius: 50%;
-  font-size: 2rem;
-  width: 36px; height: 36px;
-  text-align: center;
-  line-height: 36px;
-  cursor: pointer;
-  box-shadow: 0 0 4px #000;
-  z-index: 2;
-  transition: background 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.img-modal-close:hover {
-  background: #c00;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  object-fit: contain;
+  background: #f8f8f8;
 }
 
-#confirm-upload-modal .img-modal-close,
-#upload-password-modal .img-modal-close, {
-    display: none;
-}
-
-#confirm-delete-modal,
-#confirm-upload-modal,
-#delete-password-modal,
-#upload-password-modal,
-#upload-success-modal {
+#delete-modal,
+#upload-modal {
     text-align: center;
     background: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 100%;
+    padding: 28px 18px 22px 18px;
+    border-radius: 18px;
+    width: 95vw;
+    max-width: 370px;
     box-sizing: border-box;
-    max-width: 100%;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    position: relative;
+    color: #222;
+    margin: 0 auto;
 }
 
-#confirm-delete-modal h3,
-#confirm-upload-modal h3,
-#delete-password-modal h3,
-#upload-password-modal h3,
-#upload-success-modal h3 {
-    margin: 0 0 15px;
-    font-size: 2rem;
-    color: #333;
+#delete-modal p {
+    color: #e74c3c;
+    margin-bottom: 14px;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+#upload-modal p {
+    color: #24b7ff;
+    margin-bottom: 14px;
+    font-size: 1.5rem;
+    font-weight: 500;
 }
 
-#delete-password-modal input,
-#upload-password-modal input {
-    width: 100%;
-    padding: 10px;
+#delete-modal input,
+#upload-modal input {
+    width: 80%;
+    padding: 10px 14px;
     margin-bottom: 10px;
     border: 2px solid #ffa500;
     border-radius: 20px;
     font-size: 1.3rem;
+    background: #f8f8f8;
+    transition: border 0.2s;
 }
-
-#delete-password-modal input:focus,
-#upload-password-modal input:focus {
+#delete-modal input:focus,
+#upload-modal input:focus {
     border-color: #24b7ff;
     outline: none;
 }
 
-#delete-password-modal p,
-#upload-password-modal p {
-    color: red;
+#delete-modal-error,
+#upload-modal-error {
+    color: #e74c3c;
+    font-size: 1.15rem;
     margin-bottom: 10px;
-    font-size: 1.4rem;
+    display: none;
 }
 
-.modal-confirm {
-    background: #2ecc71;
+#upload-modal-preview-img {
+    display: block;
+    max-width: 90%;
+    max-height: 180px;
+    margin: 0 auto 14px auto;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    object-fit: contain;
+    background: #f8f8f8;
+}
+
+#delete-modal-yes {
+    background-color: #e74c3c;
     color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    padding: 10px 22px;
+    border-radius: 20px;
     font-size: 1.4rem;
-    margin: 0 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    border: none;
+    transition: background 0.18s;
+}
+#delete-modal-yes:hover {
+    background-color: #b71c1c;
 }
 
-.modal-confirm:hover {
-    opacity: 0.9;
-}
-
-.modal-cancel {
-    background: #6c757d;
+#upload-modal-yes {
+    background-color: #24b7ff;
     color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    padding: 10px 22px;
+    border-radius: 20px;
     font-size: 1.4rem;
-    margin: 0 5px;
+    cursor: pointer;
+    margin-right: 10px;
+    border: none;
+    transition: background 0.18s;
+}
+#upload-modal-yes:hover {
+    background-color: #1a8fbf;
 }
 
-.modal-cancel:hover {
-    opacity: 0.9;
+#upload-modal-no,
+#delete-modal-no {
+    background-color: #ccc;
+    color: #222;
+    padding: 10px 22px;
+    border-radius: 20px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border: none;
+    transition: background 0.18s;
+}
+#upload-modal-no:hover,
+#delete-modal-no:hover {
+    background-color: #aaa;
+    color: #fff;
 }
 
-.modal-confirm.delete {
-    background: #dc3545;
-}
-
-.modal-confirm.delete:hover {
-    opacity: 0.9;
+#upload-modal button,
+#delete-modal button {
+    margin-top: 10px;
+    margin-bottom: 0;
+    font-weight: 500;
 }

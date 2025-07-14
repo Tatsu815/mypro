@@ -35,32 +35,24 @@
       <div class="img-modal-content">
         <span class="img-modal-close" id="img-modal-close" style="display: none;">×</span>
         <img id="img-modal-img" src="" alt="preview">
-        <div id="confirm-delete-modal" style="display:none;">
-          <h3>Delete this photo?</h3>
-          <button id="confirm-delete-yes" class="modal-confirm delete">Confirm</button>
-          <button id="confirm-delete-no" class="modal-cancel">Cancel</button>
+
+        <!-- Delete -->
+        <div id="delete-modal" class="modal-content" style="display:none;">
+            <p>Delete this photo?</p>
+            <input type="password" id="delete-modal-password-input" placeholder="Type password" />
+            <div id="delete-modal-error" style="color:red;display:none;">Wrong password!</div>
+            <button id="delete-modal-yes">Confirm</button>
+            <button id="delete-modal-no">Cancel</button>
         </div>
-        <div id="delete-password-modal" style="display:none;">
-          <h3>Password!</h3>
-          <input type="password" id="delete-password-input">
-          <p id="delete-password-error" style="display:none;">Wrong password!</p>
-          <button id="delete-password-confirm" class="modal-confirm delete">Confirm</button>
-          <button id="delete-password-cancel" class="modal-cancel">Cancel</button>
-        </div>
-        <div id="confirm-upload-modal" style="display:none;">
-          <h3>Upload this photo?</h3>
-          <img id="upload-preview-img" src="" alt="upload preview">
-          <div style="margin-top: 15px;">
-            <button id="confirm-upload-yes" class="modal-confirm">Confirm</button>
-            <button id="confirm-upload-no" class="modal-cancel">Cancel</button>
-          </div>
-        </div>
-        <div id="upload-password-modal" style="display:none;">
-          <h3>Password!</h3>
-          <input type="password" id="upload-password-input">
-          <p id="upload-password-error" style="display:none;">Wrong password</p>
-          <button id="upload-password-confirm" class="modal-confirm">Confirm</button>
-          <button id="upload-password-cancel" class="modal-cancel">Cancel</button>
+
+        <!-- Upload -->
+        <div id="upload-modal" class="modal-content" style="display:none;">
+            <p>Upload this photo?</p>
+            <img id="upload-modal-preview-img" src="" style="max-width:100%;margin-bottom:10px;" />
+            <input type="password" id="upload-modal-password-input" placeholder="Type password" />
+            <div id="upload-modal-error" style="color:red;display:none;">Wrong password!</div>
+            <button id="upload-modal-yes">Confirm</button>
+            <button id="upload-modal-no">Cancel</button>
         </div>
       </div>
     </div>
