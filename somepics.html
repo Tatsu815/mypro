@@ -35,32 +35,32 @@
       <div class="img-modal-content">
         <span class="img-modal-close" id="img-modal-close" style="display: none;">×</span>
         <img id="img-modal-img" src="" alt="preview">
-        <div id="confirm-delete-modal" style="display:none; text-align:center;">
-          <h3>Bạn có chắc muốn xóa ảnh này?</h3>
-          <button id="confirm-delete-yes">Xác nhận</button>
-          <button id="confirm-delete-no">Hủy</button>
+        <div id="confirm-delete-modal" style="display:none;">
+          <h3>Delete this photo?</h3>
+          <button id="confirm-delete-yes" class="modal-confirm delete">Confirm</button>
+          <button id="confirm-delete-no" class="modal-cancel">Cancel</button>
         </div>
-        <div id="delete-password-modal" style="display:none; text-align:center;">
-          <h3>Nhập mật khẩu để xóa ảnh</h3>
-          <input type="password" id="delete-password-input" placeholder="Mật khẩu">
-          <p id="delete-password-error" style="display:none;">Sai mật khẩu!</p>
-          <button id="delete-password-confirm">Xác nhận</button>
-          <button id="delete-password-cancel">Hủy</button>
+        <div id="delete-password-modal" style="display:none;">
+          <h3>Password!</h3>
+          <input type="password" id="delete-password-input">
+          <p id="delete-password-error" style="display:none;">Wrong password!</p>
+          <button id="delete-password-confirm" class="modal-confirm delete">Confirm</button>
+          <button id="delete-password-cancel" class="modal-cancel">Cancel</button>
         </div>
-        <div id="confirm-upload-modal" style="display:none; text-align:center;">
-          <h3>Bạn có chắc muốn tải ảnh này lên?</h3>
+        <div id="confirm-upload-modal" style="display:none;">
+          <h3>Upload this photo?</h3>
           <img id="upload-preview-img" src="" alt="upload preview">
           <div style="margin-top: 15px;">
-            <button id="confirm-upload-yes">Xác nhận</button>
-            <button id="confirm-upload-no">Hủy</button>
+            <button id="confirm-upload-yes" class="modal-confirm">Confirm</button>
+            <button id="confirm-upload-no" class="modal-cancel">Cancel</button>
           </div>
         </div>
-        <div id="upload-password-modal" style="display:none; text-align:center;">
-          <h3>Nhập mật khẩu để tải ảnh</h3>
-          <input type="password" id="upload-password-input" placeholder="Mật khẩu">
-          <p id="upload-password-error" style="display:none;">Sai mật khẩu!</p>
-          <button id="upload-password-confirm">Xác nhận</button>
-          <button id="upload-password-cancel">Hủy</button>
+        <div id="upload-password-modal" style="display:none;">
+          <h3>Password!</h3>
+          <input type="password" id="upload-password-input">
+          <p id="upload-password-error" style="display:none;">Wrong password</p>
+          <button id="upload-password-confirm" class="modal-confirm">Confirm</button>
+          <button id="upload-password-cancel" class="modal-cancel">Cancel</button>
         </div>
       </div>
     </div>
