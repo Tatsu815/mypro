@@ -352,6 +352,12 @@ span{
         font-size: 3rem;
     }
 
+    .projects{
+        flex-direction: column;
+        margin: 5rem 4rem;
+        margin-top: 0;
+    }
+    
     .projects-content h1{
         font-size: 3rem;
     }
@@ -510,4 +516,78 @@ span{
     margin-top: 10px;
     margin-bottom: 0;
     font-weight: 500;
+}
+
+/* --- Cải thiện giao diện modal cho mobile --- */
+@media (max-width: 600px) {
+  .somepics-section h2{
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  #delete-modal,
+  #upload-modal {
+    padding: 10vw 2vw 6vw 2vw;
+    border-radius: 12px;
+    width: 98vw;
+    max-width: 98vw;
+    min-width: unset;
+    font-size: 1.1rem;
+  }
+  #delete-modal p,
+  #upload-modal p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  #delete-modal input,
+  #upload-modal input {
+    width: 96vw;
+    max-width: 96vw;
+    font-size: 1.1rem;
+    padding: 10px 8px;
+    border-radius: 14px;
+  }
+  #upload-modal-preview-img {
+    max-width: 96vw;
+    max-height: 38vw;
+    margin-bottom: 10px;
+    border-radius: 10px;
+  }
+  #delete-modal-yes,
+  #upload-modal-yes,
+  #delete-modal-no,
+  #upload-modal-no {
+    width: 90vw;
+    max-width: 90vw;
+    font-size: 1.15rem;
+    padding: 12px 0;
+    margin: 8px 0 0 0;
+    border-radius: 14px;
+    display: block;
+  }
+  #upload-modal button,
+  #delete-modal button {
+    margin-right: 0;
+  }
+}
+
+/* Đảm bảo modal overlay luôn phủ kín và modal căn giữa */
+@media (max-width: 600px) {
+  #img-modal {
+    padding-top: 4vw;
+    align-items: flex-start;
+  }
+}
+
+/* Tối ưu lỗi và input cho mobile */
+#delete-modal-error,
+#upload-modal-error {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+
+/* Đảm bảo không tràn màn hình khi zoom hoặc bàn phím ảo */
+html, body {
+  overscroll-behavior: contain;
+  touch-action: manipulation;
 }
