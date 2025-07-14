@@ -402,7 +402,7 @@ span{
     padding: 28px 18px 22px 18px;
     border-radius: 18px;
     width: 95vw;
-    max-width: 370px;
+    max-width: 500px;
     box-sizing: border-box;
     box-shadow: 0 8px 32px rgba(0,0,0,0.18);
     position: relative;
@@ -450,8 +450,7 @@ span{
 
 #upload-modal-preview-img {
     display: block;
-    max-width: 90%;
-    max-height: 180px;
+    max-height: 500px;
     margin: 0 auto 14px auto;
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.07);
