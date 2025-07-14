@@ -458,15 +458,13 @@ span{
 }
 
 #confirm-upload-modal .img-modal-close,
-#upload-password-modal .img-modal-close,
-#upload-success-modal .img-modal-close {
+#upload-password-modal .img-modal-close, {
     display: none;
 }
 
 #confirm-delete-modal,
 #confirm-upload-modal,
-#password-modal,
-#success-modal,
+#delete-password-modal,
 #upload-password-modal,
 #upload-success-modal {
     text-align: center;
@@ -480,8 +478,7 @@ span{
 
 #confirm-delete-modal h3,
 #confirm-upload-modal h3,
-#password-modal h3,
-#success-modal h3,
+#delete-password-modal h3,
 #upload-password-modal h3,
 #upload-success-modal h3 {
     margin: 0 0 15px;
@@ -489,7 +486,7 @@ span{
     color: #333;
 }
 
-#password-modal input,
+#delete-password-modal input,
 #upload-password-modal input {
     width: 100%;
     padding: 10px;
@@ -499,7 +496,7 @@ span{
     font-size: 1.3rem;
 }
 
-#password-modal p,
+#delete-password-modal p,
 #upload-password-modal p {
     color: red;
     margin-bottom: 10px;
@@ -507,8 +504,7 @@ span{
 }
 
 #confirm-delete-modal button,
-#password-modal button,
-#success-modal button,
+#delete-password-modal button,
 #confirm-upload-modal button,
 #upload-password-modal button,
 #upload-success-modal button {
@@ -522,10 +518,9 @@ span{
 }
 
 #confirm-delete-yes,
-#password-confirm,
+#delete-password-confirm,
 #confirm-upload-yes,
 #upload-password-confirm,
-#success-ok,
 #upload-success-ok {
     background: #dc3545;
     color: white;
@@ -538,16 +533,15 @@ span{
 }
 
 #confirm-delete-yes:hover,
-#password-confirm:hover,
+#delete-password-confirm:hover,
 #confirm-upload-yes:hover,
 #upload-password-confirm:hover,
-#success-ok:hover,
 #upload-success-ok:hover {
     opacity: 0.9;
 }
 
 #confirm-delete-no,
-#password-cancel,
+#delete-password-cancel,
 #confirm-upload-no,
 #upload-password-cancel {
     background: #6c757d;
@@ -555,7 +549,7 @@ span{
 }
 
 #confirm-delete-no:hover,
-#password-cancel:hover,
+#delete-password-cancel:hover,
 #confirm-upload-no:hover,
 #upload-password-cancel:hover {
     opacity: 0.9;
