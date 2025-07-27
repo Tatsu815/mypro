@@ -21,6 +21,24 @@ const uploadModalError = document.getElementById('upload-modal-error');
 const uploadModalYesBtn = document.getElementById('upload-modal-yes');
 const uploadModalNoBtn = document.getElementById('upload-modal-no');
 
+// Cursor
+const cursor = document.querySelector('.cursor');
+
+window.addEventListener('mousemove', (e) => {
+    const posX = e.clientX;
+    const posY = e.clientY;
+
+    cursor.style.left = `${posX - 15}px`;
+    cursor.style.top = `${posY - 15}px`;
+});
+document.addEventListener('mousedown', () => {
+    cursor.classList.add('active');
+});
+document.addEventListener('mouseup', () => {
+    cursor.classList.remove('active');
+});
+
+
 // Menu toggle
 if (menuBtn && nav) {
   menuBtn.addEventListener('click', () => {
